@@ -5,10 +5,10 @@ import lombok.Builder;
 
 @Builder
 public record ApiResponse<T>(
-        @JsonProperty("result") boolean success,
-        @JsonProperty("status") int status,
-        @JsonProperty("message") String message,
-        @JsonProperty("data") T data
+        boolean success,
+        int status,
+        String message,
+        T data
 ) {
     public static <T> ApiResponse<T> success(String message, T data) {
         return ApiResponse.<T>builder()
