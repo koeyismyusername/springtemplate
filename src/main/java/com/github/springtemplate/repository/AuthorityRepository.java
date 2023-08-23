@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface AuthorityRepository extends JpaRepository<Authority, Integer> {
-    Set<Authority> findAllByUserEmailAndDeletedIsFalse(String email);
+    Set<Authority> findAllByUserEmailAndIsDeletedIsFalse(String email);
 }

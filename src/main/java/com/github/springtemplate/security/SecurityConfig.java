@@ -19,7 +19,6 @@ public class SecurityConfig {
 
     private final FilterExceptionHandler filterExceptionHandler;
     private final AuthorizationFilter authorizationFilter;
-    private final JwtProvider jwtProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,10 +36,5 @@ public class SecurityConfig {
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(filterExceptionHandler, AuthorizationFilter.class)
                 .build();
-    }
-
-    @Bean
-    public ProviderManager providerManager() {
-        return new ProviderManager(jwtProvider);
     }
 }

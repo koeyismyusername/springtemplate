@@ -20,7 +20,7 @@ public class Authorization {
     @Column(name = "email", nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "jwt", nullable = false, length = 600)
+    @Column(name = "jwt", nullable = false, length = 600, unique = true)
     private String jwt;
 
     @Column(name = "created_at", nullable = false)

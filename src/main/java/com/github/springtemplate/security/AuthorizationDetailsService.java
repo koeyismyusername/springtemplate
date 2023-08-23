@@ -23,9 +23,9 @@ public class AuthorizationDetailsService implements UserDetailsService {
 
     @Override
     public AuthorizationDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Authorization authorization = authorizationRepository.findByEmailAndDeletedIsFalse(email).orElseThrow(JwtErrorCode.UNRELIABLE_JWT::getException);
+        Authorization authorization = authorizationRepository.findByEmailAndIsDeletedIsFalse(email).orElseThrow(JwtErrorCode.UNRELIABLE_JWT::getException);
         String jwt = authorization.getJwt();
-        Set<SimpleGrantedAuthority> authorities = authorityRespository.findAllByUserEmailAndDeletedIsFalse(email).stream()
+        Set<SimpleGrantedAuthority> authorities = authorityRespository.findAllByUserEmailAndIsDeletedIsFalse(email).stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))
                 .collect(Collectors.toSet());
 

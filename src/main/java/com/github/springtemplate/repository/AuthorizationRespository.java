@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface AuthorizationRespository extends JpaRepository<Authorization, Integer> {
-    Optional<Authorization> findByEmailAndDeletedIsFalse(String email);
+    Optional<Authorization> findByEmailAndIsDeletedIsFalse(String email);
 }
