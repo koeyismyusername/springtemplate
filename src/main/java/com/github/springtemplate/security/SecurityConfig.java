@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,6 +19,7 @@ public class SecurityConfig {
 
     private final FilterExceptionHandler filterExceptionHandler;
     private final AuthorizationFilter authorizationFilter;
+    private final JwtProvider jwtProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,4 +39,8 @@ public class SecurityConfig {
                 .build();
     }
 
+    @Bean
+    public ProviderManager providerManager() {
+        return new ProviderManager(jwtProvider);
+    }
 }
