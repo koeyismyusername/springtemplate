@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -16,15 +17,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final FilterExceptionHandler filterExceptionHandler;
+    private final AuthorizationFilter authorizationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(matcherRegistry -> matcherRegistry
-                            .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
-                            .anyRequest().authenticated()
+                // 세션 관리 정책 설정: 세션을 생성하지 않음
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterBefore(filterExceptionHandler, UsernamePasswordAuthenticationFilter.class)
+                // 접근 권한 설정
+                .authorizeHttpRequests(matcherRegistry -> matcherRegistry
+                        .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                // 필터 순서 변경
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterExceptionHandler, AuthorizationFilter.class)
                 .build();
     }
 
