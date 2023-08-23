@@ -1,5 +1,6 @@
 package com.github.springtemplate.security;
 
+import com.github.springtemplate.exception.errorcode.JwtErrorCode;
 import com.github.springtemplate.exception.errorcode.TestErrorCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,7 +29,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(JwtProvider.HEADER_NAME);
 
-        if (jwt != null && jwtProvider.validateJwtToken(jwt)) {
+        if (jwt != null) {
             Authentication beforeAuthenticate = jwtProvider.parseAuthentication(jwt);
             Authentication afterAuthenticate = providerManager.authenticate(beforeAuthenticate);
             SecurityContextHolder.getContext().setAuthentication(afterAuthenticate);
