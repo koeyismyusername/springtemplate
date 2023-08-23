@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,6 +25,7 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
             log.info("Api 응답! {}", HttpStatus.valueOf(response.getStatus()));
         }
         catch (Exception e) {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(500);
             response.getOutputStream().write(new ObjectMapper()
                     .writeValueAsString(ApiResponse.fail(500, e.getMessage())).getBytes(StandardCharsets.UTF_8));
