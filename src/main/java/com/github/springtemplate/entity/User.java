@@ -3,6 +3,8 @@ package com.github.springtemplate.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Getter
 @Setter
@@ -26,4 +28,13 @@ public class User {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
+
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 }
