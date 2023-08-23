@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @GetMapping("/")
     public ApiResponse<String> test() {
-        throw TestErrorCode.TEST_ERROR_CODE.exception();
+        throw TestErrorCode.TEST_ERROR_CODE.getException();
 
 //        return ApiResponse.success("응답에 성공했습니다.", "hello, world");
     }

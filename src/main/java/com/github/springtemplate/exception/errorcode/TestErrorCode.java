@@ -13,7 +13,7 @@ public enum TestErrorCode implements ErrorCode {
     private final ApiException exception;
 
     @Override
-    public ApiException exception() {
+    public ApiException getException() {
         return exception;
     }
 }
