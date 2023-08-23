@@ -1,6 +1,8 @@
 package com.github.springtemplate.dto.response;
 
-public abstract class ApiResponse<T>{
+import java.io.Serializable;
+
+public abstract class ApiResponse<T> implements Serializable {
     private final boolean success;
     private final int status;
     private final String message;
