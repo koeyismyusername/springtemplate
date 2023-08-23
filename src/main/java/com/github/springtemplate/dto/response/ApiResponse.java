@@ -1,4 +1,4 @@
-package com.github.springtemplate.util;
+package com.github.springtemplate.dto.response;
 
 public abstract class ApiResponse<T>{
     private final boolean success;
