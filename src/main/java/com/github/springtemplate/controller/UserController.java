@@ -1,7 +1,9 @@
 package com.github.springtemplate.controller;
 
+import com.github.springtemplate.dto.request.LoginRequest;
 import com.github.springtemplate.dto.request.SignupRequest;
 import com.github.springtemplate.dto.response.ApiResponse;
+import com.github.springtemplate.dto.response.LoginResponse;
 import com.github.springtemplate.dto.response.UserResponse;
 import com.github.springtemplate.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,5 +27,11 @@ public class UserController {
     @PostMapping("/auth/signup")
     public ApiResponse<UserResponse> signup(@RequestBody @Parameter(name = "회원가입 요청 객체", required = true) SignupRequest request) {
         return userService.signup(request);
+    }
+
+    @Operation(method = "POST", summary = "로그인")
+    @PostMapping("/auth/login")
+    public ApiResponse<LoginResponse> login(@RequestBody @Parameter(name = "로그인 요청 객체", required = true) LoginRequest request) {
+        return userService.login(request);
     }
 }
