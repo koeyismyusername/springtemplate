@@ -2,8 +2,11 @@ package com.github.springtemplate.security;
 
 import com.github.springtemplate.exception.errorcode.JwtErrorCode;
 import io.jsonwebtoken.*;
+import jakarta.persistence.Tuple;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.results.internal.TupleImpl;
+import org.hibernate.sql.results.internal.TupleMetadata;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,7 +37,8 @@ public class JwtProvider implements AuthenticationProvider {
         String jwt = (String) authentication.getCredentials();
         AuthorizationDetails details = authorizationDetailsService.loadUserByUsername(email);
 
-        if (!details.getPassword().equals(jwt)) throw new AuthenticationException("JWT 토큰 인증에 실패했습니다.") {};
+        if (!details.getPassword().equals(jwt)) throw new AuthenticationException("JWT 토큰 인증에 실패했습니다.") {
+        };
 
         return new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), details.getAuthorities());
     }
@@ -68,7 +74,7 @@ public class JwtProvider implements AuthenticationProvider {
         String email = claims.getSubject();
         Object authoritiesObj = claims.get("authorities");
         if (!(authoritiesObj instanceof Set<?>)) throw JwtErrorCode.INVALID_SIGNATURE.exception();
-        Set<SimpleGrantedAuthority> authorities =((Set<?>) authoritiesObj).stream()
+        Set<SimpleGrantedAuthority> authorities = ((Set<?>) authoritiesObj).stream()
                 .map(String::valueOf)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
@@ -76,16 +82,29 @@ public class JwtProvider implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(email, jwt, authorities);
     }
 
-    public String createToken(String email, Set<String> authorities) {
+    public Map<String, String> createToken(String email, Set<String> authorities) {
         Date now = new Date();
-        final long duration = 3_600_000L;
-        return Jwts.builder()
+        final long oneHour = 3_600_000L;
+        final long oneMonth = oneHour * 24 * 30;
+        String jwt = Jwts.builder()
                 .setSubject(email)
                 .claim("authorities", authorities)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + duration))
+                .setExpiration(new Date(now.getTime() + oneHour))
                 .signWith(secretKey)
                 .compact();
+        String refresh = Jwts.builder()
+                .setSubject(email)
+                .claim("token", jwt)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + oneMonth))
+                .signWith(secretKey)
+                .compact();
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", jwt);
+        map.put("refresh", refresh);
+        return map;
     }
 
     public String parseJwt(HttpServletRequest request) {
