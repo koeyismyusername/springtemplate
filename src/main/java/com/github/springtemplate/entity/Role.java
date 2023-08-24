@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "role")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 public class Role {
 
     @Id
