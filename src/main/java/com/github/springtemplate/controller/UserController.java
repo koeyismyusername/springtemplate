@@ -34,4 +34,5 @@ public class UserController {
     public ApiResponse<LoginResponse> login(@RequestBody @Parameter(name = "로그인 요청 객체", required = true) LoginRequest request) {
         return userService.login(request);
     }
+
 }

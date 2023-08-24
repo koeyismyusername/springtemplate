@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,10 +62,13 @@ public class UserService {
                 .map(Authority::getRole)
                 .map(Role::getName)
                 .collect(Collectors.toSet());
-        String jwt = jwtProvider.createToken(email, authorities);
+        Map<String, String> map = jwtProvider.createToken(email, authorities);
+        String jwt = map.get("token");
+        String refresh = map.get("refresh");
         Authorization newData = Authorization.builder()
                 .email(email)
                 .token(jwt)
+                .refresh(refresh)
                 .isDeleted(false)
                 .createdAt(new Timestamp(new Date().getTime()))
                 .build();
