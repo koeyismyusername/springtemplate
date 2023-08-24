@@ -10,7 +10,7 @@ public record SignupResponse (
         int id,
         @Schema(name = "회원 이메일")
         String email,
-        @Schema(name = "회원 이름")
+        @Schema(name = "회원 이름   ")
         String name
 ){
 }
