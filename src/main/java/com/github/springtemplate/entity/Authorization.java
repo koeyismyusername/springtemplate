@@ -22,6 +22,9 @@ public class Authorization {
     @Column(name = "jwt", nullable = false, length = 600, unique = true)
     private String token;
 
+    @Column(name = "refresh", nullable = false, length = 600, unique = true)
+    private String refresh;
+
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
 
