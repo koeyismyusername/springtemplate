@@ -90,8 +90,8 @@ public class JwtProvider implements AuthenticationProvider {
 
     public String parseJwt(HttpServletRequest request) {
         String bearerToken = request.getHeader(HEADER_NAME);
-        if (bearerToken == null) throw JwtErrorCode.EMPTY_JWT.exception();
-        if (!bearerToken.startsWith("Bearer ")) throw JwtErrorCode.INVALID_SIGNATURE.exception();
+        if (bearerToken == null) return null;
+        if (!bearerToken.startsWith("Bearer ")) return null;
         return bearerToken.substring("Bearer ".length());
     }
 }
