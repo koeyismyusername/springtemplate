@@ -16,10 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -72,14 +69,14 @@ public class JwtProvider implements AuthenticationProvider {
     public UsernamePasswordAuthenticationToken parseAuthentication(String jwt) {
         Claims claims = parseClaims(jwt);
         String email = claims.getSubject();
-        Object authoritiesObj = claims.get("authorities");
-        if (!(authoritiesObj instanceof Set<?>)) throw JwtErrorCode.INVALID_SIGNATURE.exception();
-        Set<SimpleGrantedAuthority> authorities = ((Set<?>) authoritiesObj).stream()
+        List<?> authorities = claims.get("authorities", List.class);
+        if (authorities == null ) throw JwtErrorCode.INVALID_SIGNATURE.exception();
+        Set<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
                 .map(String::valueOf)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
 
-        return new UsernamePasswordAuthenticationToken(email, jwt, authorities);
+        return new UsernamePasswordAuthenticationToken(email, jwt, grantedAuthorities);
     }
 
     public Map<String, String> createToken(String email, Set<String> authorities) {

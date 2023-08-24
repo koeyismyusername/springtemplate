@@ -30,7 +30,6 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
             response.getOutputStream().write(new ObjectMapper()
                     .writeValueAsString(ApiResponse.fail(e.getStatus(), e.getMessage())).getBytes(StandardCharsets.UTF_8));
             log.info("Api 응답! {}", HttpStatus.valueOf(response.getStatus()));
-            e.printStackTrace();
         }
         catch (Exception e) {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
