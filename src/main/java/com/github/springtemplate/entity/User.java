@@ -1,9 +1,11 @@
 package com.github.springtemplate.entity;
 
+import com.github.springtemplate.dto.request.SignupRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -37,4 +39,14 @@ public class User {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+    public static User from(SignupRequest request, String encodedPassword) {
+        return User.builder()
+                .email(request.email())
+                .password(encodedPassword)
+                .name(request.name())
+                .createdAt(new Timestamp(new Date().getTime()))
+                .isDeleted(false)
+                .build();
+    }
 }
