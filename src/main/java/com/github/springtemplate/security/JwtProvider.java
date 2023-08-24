@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -72,5 +73,17 @@ public class JwtProvider implements AuthenticationProvider {
                 .collect(Collectors.toSet());
 
         return new UsernamePasswordAuthenticationToken(email, jwt, authorities);
+    }
+
+    public String createToken(String email, Set<String> authorities) {
+        Date now = new Date();
+        final long duration = 3_600_000L;
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("authorities", authorities)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + duration))
+                .signWith(secretKey)
+                .compact();
     }
 }
