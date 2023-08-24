@@ -2,7 +2,6 @@ package com.github.springtemplate.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
@@ -21,7 +20,7 @@ public class Authorization {
     private String email;
 
     @Column(name = "jwt", nullable = false, length = 600, unique = true)
-    private String jwt;
+    private String token;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
