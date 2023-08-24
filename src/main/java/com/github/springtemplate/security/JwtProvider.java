@@ -2,6 +2,7 @@ package com.github.springtemplate.security;
 
 import com.github.springtemplate.exception.errorcode.JwtErrorCode;
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -85,5 +86,12 @@ public class JwtProvider implements AuthenticationProvider {
                 .setExpiration(new Date(now.getTime() + duration))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public String parseJwt(HttpServletRequest request) {
+        String bearerToken = request.getHeader(HEADER_NAME);
+        if (bearerToken == null) throw JwtErrorCode.EMPTY_JWT.exception();
+        if (!bearerToken.startsWith("Bearer ")) throw JwtErrorCode.INVALID_SIGNATURE.exception();
+        return bearerToken.substring("Bearer ".length());
     }
 }
