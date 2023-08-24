@@ -9,7 +9,7 @@ public enum UserErrorCode implements ErrorCode {
     UserErrorCode(HttpStatus status, String message) {
         this.exception = new ApiException(status.value(), message) {};
     }
-    private ApiException exception;
+    private final ApiException exception;
 
     @Override
     public ApiException getException() {
