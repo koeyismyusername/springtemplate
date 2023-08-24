@@ -6,13 +6,15 @@ import lombok.Builder;
 
 @Builder
 public record LoginResponse(
+        String email,
         String token,
-        String email
+        String refresh
 ) {
     public static LoginResponse from(Authorization savedData) {
         return LoginResponse.builder()
                 .email(savedData.getEmail())
                 .token(savedData.getToken())
+                .refresh(savedData.getRefresh())
                 .build();
     }
 }
