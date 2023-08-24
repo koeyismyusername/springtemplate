@@ -6,7 +6,6 @@ import com.github.springtemplate.repository.AuthorityRepository;
 import com.github.springtemplate.repository.AuthorizationRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class AuthorizationDetailsService implements UserDetailsService {
 
     @Override
     public AuthorizationDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Authorization authorization = authorizationRepository.findByEmailAndIsDeletedIsFalse(email).orElseThrow(JwtErrorCode.UNRELIABLE_JWT::getException);
+        Authorization authorization = authorizationRepository.findByEmailAndIsDeletedIsFalse(email).orElseThrow(JwtErrorCode.UNRELIABLE_JWT::exception);
         String jwt = authorization.getJwt();
         Set<SimpleGrantedAuthority> authorities = authorityRespository.findAllByUserEmailAndIsDeletedIsFalse(email).stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getRole().getName()))

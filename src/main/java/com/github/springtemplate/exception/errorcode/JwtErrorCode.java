@@ -17,7 +17,7 @@ public enum JwtErrorCode implements ErrorCode {
     private final ApiException apiException;
 
     @Override
-    public ApiException getException() {
+    public ApiException exception() {
         return apiException;
     }
 }

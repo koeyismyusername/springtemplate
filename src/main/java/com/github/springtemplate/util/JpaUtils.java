@@ -1,5 +1,6 @@
 package com.github.springtemplate.util;
 
+import com.github.springtemplate.exception.errorcode.ApiErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,6 @@ public class JpaUtils {
             }
         }
 
-        throw ApiErrorCode
+        throw ApiErrorCode.FAIL_TO_SAVE.exception();
     }
 }

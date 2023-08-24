@@ -12,7 +12,7 @@ public enum UserErrorCode implements ErrorCode {
     private final ApiException exception;
 
     @Override
-    public ApiException getException() {
+    public ApiException exception() {
         return exception;
     }
 }

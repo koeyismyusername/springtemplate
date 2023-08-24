@@ -9,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -54,11 +53,11 @@ public class JwtProvider implements AuthenticationProvider {
         try {
             return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(jwt).getBody();
         } catch (ExpiredJwtException e) {
-            throw JwtErrorCode.EXPIRED_JWT.getException();
+            throw JwtErrorCode.EXPIRED_JWT.exception();
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-            throw JwtErrorCode.INVALID_SIGNATURE.getException();
+            throw JwtErrorCode.INVALID_SIGNATURE.exception();
         } catch (IllegalArgumentException e) {
-            throw JwtErrorCode.EMPTY_JWT.getException();
+            throw JwtErrorCode.EMPTY_JWT.exception();
         }
     }
 
@@ -66,7 +65,7 @@ public class JwtProvider implements AuthenticationProvider {
         Claims claims = parseClaims(jwt);
         String email = claims.getSubject();
         Object authoritiesObj = claims.get("authorities");
-        if (!(authoritiesObj instanceof Set<?>)) throw JwtErrorCode.INVALID_SIGNATURE.getException();
+        if (!(authoritiesObj instanceof Set<?>)) throw JwtErrorCode.INVALID_SIGNATURE.exception();
         Set<SimpleGrantedAuthority> authorities =((Set<?>) authoritiesObj).stream()
                 .map(String::valueOf)
                 .map(SimpleGrantedAuthority::new)
