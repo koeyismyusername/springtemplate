@@ -4,7 +4,6 @@ import com.github.springtemplate.dto.request.LoginRequest;
 import com.github.springtemplate.dto.request.SignupRequest;
 import com.github.springtemplate.dto.response.ApiResponse;
 import com.github.springtemplate.dto.response.LoginResponse;
-import com.github.springtemplate.dto.response.SignupResponse;
 import com.github.springtemplate.dto.response.UserResponse;
 import com.github.springtemplate.entity.Authority;
 import com.github.springtemplate.entity.Authorization;
@@ -17,7 +16,6 @@ import com.github.springtemplate.repository.UserRepository;
 import com.github.springtemplate.security.JwtProvider;
 import com.github.springtemplate.util.JpaUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
