@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @GetMapping("/")
     public ApiResponse<String> test(){
-        throw ApiErrorCode.INVALID_PATH_VARIABLE.exception();
-//        return ApiResponse.success("응답에 성공했습니다.", "응답 데이터");
+//        throw ApiErrorCode.INVALID_PATH_VARIABLE.exception();
+        return ApiResponse.success("응답에 성공했습니다.", "응답 데이터");
     }
 }
