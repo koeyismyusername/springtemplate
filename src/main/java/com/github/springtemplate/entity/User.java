@@ -4,18 +4,15 @@ import com.github.springtemplate.dto.request.SignupRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "user")
-@EqualsAndHashCode(of = "id")
-public class User {
+@EqualsAndHashCode(of = "id", callSuper = false)
+public class User extends CommonEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,22 +28,11 @@ public class User {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
-
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted;
-
-    @Column(name = "updated_at")
-    private Timestamp updatedAt;
-
     public static User from(SignupRequest request, String encodedPassword) {
         return User.builder()
                 .email(request.email())
                 .password(encodedPassword)
                 .name(request.name())
-                .createdAt(new Timestamp(new Date().getTime()))
-                .isDeleted(false)
                 .build();
     }
 }
