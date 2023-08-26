@@ -7,13 +7,23 @@ public enum TestErrorCode implements ErrorCode {
     TEST_ERROR_CODE(HttpStatus.INTERNAL_SERVER_ERROR, "에러코드 테스트 메세지입니다.");
 
     TestErrorCode(HttpStatus status, String message) {
-        this.exception = new ApiException(status.value(), message) {};
+        this.message = message;
+        this.status = status.value();
     }
-
-    private final ApiException exception;
-
+    private final String message;
+    private final int status;
     @Override
     public ApiException exception() {
-        return exception;
+        return new ApiException(status, message) {};
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public int getStatus() {
+        return status;
     }
 }

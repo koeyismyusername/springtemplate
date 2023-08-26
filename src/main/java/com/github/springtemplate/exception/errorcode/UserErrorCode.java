@@ -10,12 +10,23 @@ public enum UserErrorCode implements ErrorCode {
     INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 옳지 않습니다.");
 
     UserErrorCode(HttpStatus status, String message) {
-        this.exception = new ApiException(status.value(), message) {};
+        this.message = message;
+        this.status = status.value();
     }
-    private final ApiException exception;
-
+    private final String message;
+    private final int status;
     @Override
     public ApiException exception() {
-        return exception;
+        return new ApiException(status, message) {};
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public int getStatus() {
+        return status;
     }
 }

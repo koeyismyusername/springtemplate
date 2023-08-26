@@ -11,13 +11,23 @@ public enum JwtErrorCode implements ErrorCode {
     ;
 
     JwtErrorCode(HttpStatus status, String message) {
-        this.apiException = new ApiException(status.value(), message) {};
+        this.message = message;
+        this.status = status.value();
     }
-
-    private final ApiException apiException;
-
+    private final String message;
+    private final int status;
     @Override
     public ApiException exception() {
-        return apiException;
+        return new ApiException(status, message) {};
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    public int getStatus() {
+        return status;
     }
 }
