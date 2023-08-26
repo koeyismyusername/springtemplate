@@ -23,16 +23,15 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(method = "POST", summary = "회원가입")
+    @Operation(summary = "회원가입")
     @PostMapping("/auth/signup")
     public ApiResponse<UserResponse> signup(@RequestBody @Parameter(name = "회원가입 요청 객체", required = true) SignupRequest request) {
         return userService.signup(request);
     }
 
-    @Operation(method = "POST", summary = "로그인")
+    @Operation(summary = "로그인")
     @PostMapping("/auth/login")
     public ApiResponse<LoginResponse> login(@RequestBody @Parameter(name = "로그인 요청 객체", required = true) LoginRequest request) {
         return userService.login(request);
     }
-
 }
