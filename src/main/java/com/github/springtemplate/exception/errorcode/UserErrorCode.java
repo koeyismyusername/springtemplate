@@ -16,17 +16,9 @@ public enum UserErrorCode implements ErrorCode {
     private final String message;
     private final int status;
     @Override
-    public ApiException exception() {
-        return new ApiException(status, message) {};
-    }
-
+    public ApiException exception() { return new ApiException(this) {}; }
     @Override
-    public String getMessage() {
-        return message;
-    }
-
+    public String getMessage() { return message; }
     @Override
-    public int getStatus() {
-        return status;
-    }
+    public int getStatus() { return status; }
 }

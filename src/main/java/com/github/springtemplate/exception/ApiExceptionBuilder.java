@@ -1,18 +1,16 @@
 package com.github.springtemplate.exception;
 
-public class ApiExceptionBuilder {
-    private int status;
-    private String message;
+import com.github.springtemplate.exception.errorcode.ErrorCode;
 
-    public ApiExceptionBuilder status(int status) {
-        this.status = status;
-        return this;
-    }
-    public ApiExceptionBuilder message(String message) {
-        this.message = message;
+public class ApiExceptionBuilder {
+
+    private ErrorCode errorCode;
+
+    public ApiExceptionBuilder errorCode(ErrorCode errorCode) {
+        this.errorCode = errorCode;
         return this;
     }
     public ApiException build() {
-        return new ApiException(status, message) {};
+        return new ApiException(errorCode) {};
     }
 }

@@ -1,6 +1,8 @@
 package com.github.springtemplate.controller;
 
 import com.github.springtemplate.dto.response.ApiResponse;
+import com.github.springtemplate.exception.ApiException;
+import com.github.springtemplate.exception.errorcode.ApiErrorCode;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @GetMapping("/")
     public ApiResponse<String> test(){
-        return ApiResponse.success("응답에 성공했습니다.", "응답 데이터");
+        throw ApiErrorCode.INVALID_PATH_VARIABLE.exception();
+//        return ApiResponse.success("응답에 성공했습니다.", "응답 데이터");
     }
 }

@@ -4,13 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
-@Schema(name = "회원가입 요청 객체")
+@Schema(title = "회원가입 요청 객체")
 public record SignupRequest(
-        @Schema(name = "email")
+        @Schema(title = "이메일", description = "사용자 이메일")
         String email,
-        @Schema(name = "비밀번호")
+        @Schema(title = "비밀번호")
         String password,
-        @Schema(name = "이름")
+        @Schema(title = "이름")
         String name
 ){
 
