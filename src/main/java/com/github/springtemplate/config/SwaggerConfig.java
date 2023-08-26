@@ -4,10 +4,8 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.security.SecuritySchemes;
-import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
@@ -17,13 +15,7 @@ import org.springframework.http.HttpHeaders;
                 title = "Springdoc 테스트",
                 description = "Springdoc을 활용한 Swagger-ui 테스트",
                 version = "v1.0.0"
-        ),
-        servers = {
-                @Server(url = "http://localhost:8080", description = "지금은 나 밖에 사용 안 하는 로컬 서버인 것이여")
-        },
-        security = {
-                @SecurityRequirement(name = "bearerAuth", scopes = "거의 대부분의 작업에 보안 설정됨")
-        }
+        )
 )
 @SecuritySchemes({
         @SecurityScheme(
