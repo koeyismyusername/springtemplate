@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,5 +30,12 @@ public class UserController {
     @PostMapping("/auth/login")
     public ApiResponse<LoginResponse> login(@RequestBody @Parameter(name = "로그인 요청 객체", required = true) LoginRequest request) {
         return userService.login(request);
+    }
+
+    @Operation(summary = "나이 증가시키기")
+    @PutMapping("/{id}")
+    public ApiResponse<UserResponse> incrementAge(@PathVariable String id) {
+        int idInt = Integer.parseInt(id);
+        return userService.incrementAge(idInt);
     }
 }

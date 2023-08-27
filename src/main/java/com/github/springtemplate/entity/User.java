@@ -28,11 +28,19 @@ public class User extends CommonEntity{
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Column(name = "age")
+    private int age;
+
+    @Version
+//    @Column(name = "version", columnDefinition = "int default 0")
+    private int version;
+
     public static User from(SignupRequest request, String encodedPassword) {
         return User.builder()
                 .email(request.email())
                 .password(encodedPassword)
                 .name(request.name())
+                .age(request.age())
                 .build();
     }
 }

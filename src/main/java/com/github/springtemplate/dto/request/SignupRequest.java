@@ -11,7 +11,9 @@ public record SignupRequest(
         @Schema(title = "비밀번호")
         String password,
         @Schema(title = "이름")
-        String name
+        String name,
+        @Schema(title = "나이")
+        int age
 ){
 
 }
