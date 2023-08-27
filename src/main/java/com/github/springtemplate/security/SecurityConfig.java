@@ -32,7 +32,7 @@ public class SecurityConfig {
                 // 접근 권한 설정
                 .authorizeHttpRequests(matcherRegistry -> matcherRegistry
 //                        .requestMatchers(HttpMethod.GET, "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/test/**").authenticated()
+//                        .requestMatchers("/api/v1/test/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 // 필터 순서 변경
