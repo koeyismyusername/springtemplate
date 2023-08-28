@@ -11,5 +11,4 @@ public abstract class ApiException extends RuntimeException {
     }
 
     public int getStatus() { return status; }
-    public static ApiExceptionBuilder builder() { return new ApiExceptionBuilder(); }
 }
