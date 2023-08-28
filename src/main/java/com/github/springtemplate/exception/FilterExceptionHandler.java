@@ -25,17 +25,19 @@ public class FilterExceptionHandler extends OncePerRequestFilter {
             log.info("Api 응답! {}", HttpStatus.valueOf(response.getStatus()));
         }
         catch (ApiException e) {
+            ApiResponse<?> data = ApiResponse.fail(e.getStatus(), e.getMessage());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(e.getStatus());
             response.getOutputStream().write(new ObjectMapper()
-                    .writeValueAsString(ApiResponse.fail(e.getStatus(), e.getMessage())).getBytes(StandardCharsets.UTF_8));
+                    .writeValueAsString(data).getBytes(StandardCharsets.UTF_8));
             log.info("Api 응답! {}", HttpStatus.valueOf(response.getStatus()));
         }
         catch (Exception e) {
+            ApiResponse<?> data = ApiResponse.fail(500, e.getMessage());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(500);
             response.getOutputStream().write(new ObjectMapper()
-                    .writeValueAsString(ApiResponse.fail(500, e.getMessage())).getBytes(StandardCharsets.UTF_8));
+                    .writeValueAsString(data).getBytes(StandardCharsets.UTF_8));
             log.info("Api 응답! {}", HttpStatus.valueOf(response.getStatus()));
             e.printStackTrace();
         }
